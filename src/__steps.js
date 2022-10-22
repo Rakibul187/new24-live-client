@@ -7,5 +7,4 @@ project setup
 4. create-react-app & install firebae & react-router-dom
 5. install react bootstrap
 6. import react bootstrap css file inside index.js
-
 */
