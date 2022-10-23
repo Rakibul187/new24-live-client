@@ -6,6 +6,7 @@ import { Button } from 'react-bootstrap';
 
 const News = () => {
     const news = useLoaderData()
+    console.log(news)
     const { image_url, rating, author, category_id, details, title } = news;
     console.log(news)
     return (
