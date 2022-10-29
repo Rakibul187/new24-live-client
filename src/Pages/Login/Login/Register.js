@@ -1,14 +1,17 @@
 import React, { useContext, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../../contexts/AuthProvider/AuthProvider';
+import useTitle from '../../../hooks/useTitle';
 
 const Register = () => {
+    useTitle("Register")
     const [error, setError] = useState('')
     const [accepted, setAccepted] = useState(false)
 
-    const { createUser } = useContext(AuthContext)
+    const { createUser, updateUserProfile, varifyEmail } = useContext(AuthContext)
     const handleSubmit = event => {
         event.preventDefault()
 
@@ -17,14 +20,17 @@ const Register = () => {
         const photoURL = form.photoURL.value;
         const email = form.email.value;
         const password = form.password.value;
-        console.log(name, photoURL, email, password)
+        // console.log(name, photoURL, email, password)
 
         createUser(email, password)
             .then(result => {
                 const user = result.user;
+                handleUpdateUserProfile(name, photoURL)
                 console.log(user)
                 form.reset()
                 setError('')
+                handleEmailVarification()
+                toast.success('Please Varify Your Email!')
             })
             .catch(e => {
                 console.error(e)
@@ -34,6 +40,22 @@ const Register = () => {
 
     const handleChecked = event => {
         setAccepted(event.target.checked)
+    }
+
+    const handleUpdateUserProfile = (name, photoURL) => {
+        const profile = {
+            displayName: name,
+            photoURL: photoURL
+        }
+        updateUserProfile(profile)
+            .then(() => { })
+            .catch(error => console.error(error))
+    }
+
+    const handleEmailVarification = () => {
+        varifyEmail()
+            .then(() => { })
+            .catch(error => console.error(error))
     }
     return (
         <Form onSubmit={handleSubmit}>

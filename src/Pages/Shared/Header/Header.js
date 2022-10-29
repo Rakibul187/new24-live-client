@@ -11,14 +11,10 @@ import LeftSideNav from '../LeftSideNav/LeftSideNav';
 import RightSideNav from '../RightSideNav/RightSideNav';
 
 const Header = () => {
-    const { user, logOut, setUser } = useContext(AuthContext);
-
+    const { user, logOut } = useContext(AuthContext);
     const logOutHandler = () => {
         logOut()
-            .then(() => {
-                setUser(null)
-                alert('SignOut succesfully!')
-            })
+            .then(() => { })
             .catch(error => console.error('sigOut error: ', error))
     }
     return (
@@ -43,12 +39,12 @@ const Header = () => {
                                 </NavDropdown.Item>
                             </NavDropdown>
                         </Nav>
-                        <Nav className='d-flex justify-content-center align-items-center'>
-                            <Nav.Link href="#deets">
+                        <Nav className='d-flex justify-content-center  align-items-center'>
+                            <Nav href="#deets">
                                 {
                                     user?.uid ?
                                         <>
-                                            <span> {user?.email}</span>
+                                            <span className='mt-2'> {user?.displayName}</span>
                                             <Button className='ms-2 border text-primary' onClick={logOutHandler} variant="light" >Logout</Button>
                                         </>
                                         :
@@ -59,16 +55,17 @@ const Header = () => {
                                 }
 
 
-                            </Nav.Link>
-                            <Nav.Link eventKey={2} href="#memes">
+                            </Nav>
+                            <Link to="/profile">
                                 {user?.uid ?
                                     <img style={{
+                                        width: '30px',
                                         height: '30px',
                                         borderRadius: '15px'
                                     }} src={user.photoURL} alt='' /> :
                                     <FaUserAstronaut></FaUserAstronaut>
                                 }
-                            </Nav.Link>
+                            </Link>
                         </Nav>
                         <div className='d-lg-none'>
                             <LeftSideNav></LeftSideNav>
